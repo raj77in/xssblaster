@@ -62,7 +62,7 @@ class TestParseArgs:
 class TestCLI:
     """Test the CLI functionality."""
 
-    @patch("xssblaster.cli.Path.home")
+    @patch("pathlib.Path.home")
     def test_init_config_new(self, mock_home):
         """Test --init-config with new configuration."""
         with tempfile.TemporaryDirectory() as temp_dir:
@@ -80,7 +80,7 @@ class TestCLI:
                         "configuration" in output.lower() or "config" in output.lower()
                     )
 
-    @patch("xssblaster.cli.Path.home")
+    @patch("pathlib.Path.home")
     def test_init_config_existing(self, mock_home):
         """Test --init-config with existing configuration."""
         with tempfile.TemporaryDirectory() as temp_dir:
