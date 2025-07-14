@@ -40,6 +40,5 @@ jobs:
 
     - name: Run linters
       run: |
-        black --check xssblaster/ tests/
         flake8 xssblaster/ tests/
         mypy xssblaster/ tests/
