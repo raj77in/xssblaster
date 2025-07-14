@@ -53,12 +53,23 @@ def generate_payloads(
     
     # Add more encoding functions...
     
+    # Calculate total count upfront
+    variants_per_payload = 0
+    if variant_filters.get('base', False):
+        variants_per_payload += 1
+    if variant_filters.get('jsfuck', False):
+        variants_per_payload += 1
+    if variant_filters.get('html_entity', False):
+        variants_per_payload += 1
+    # Add more variant counts as needed...
+    
+    total = len(base_payloads) * variants_per_payload
+    
     # Generate payloads
     counter = 1
-    total = 0
     
     def generate_variants(payload: str) -> Generator[Tuple[int, str], None, None]:
-        nonlocal counter, total
+        nonlocal counter
         variants = []
         
         # Apply variant filters
@@ -89,7 +100,6 @@ def generate_payloads(
                 
             yield (counter, final)
             counter += 1
-            total += 1
     
     # Create generator for all payloads
     def payload_generator():
