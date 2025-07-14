@@ -8,6 +8,7 @@ import sys
 from pathlib import Path
 
 from .core import generate_payloads
+from .utils import copy_default_payload_file, get_payload_file_path
 
 
 def parse_args() -> argparse.Namespace:
@@ -25,14 +26,21 @@ def parse_args() -> argparse.Namespace:
     io_group.add_argument(
         "-i",
         "--input",
-        default=str(Path(__file__).parent / "my-xss.txt"),
-        help="Input file containing base payloads (default: my-xss.txt)",
+        help="Input file containing base payloads (default: ~/.config/xssblaster/my-xss.txt or built-in)",
     )
     io_group.add_argument(
         "-n",
         "--no-output",
         action="store_true",
         help="Don't write to output file, just show statistics",
+    )
+
+    # Configuration
+    config_group = parser.add_argument_group("Configuration")
+    config_group.add_argument(
+        "--init-config",
+        action="store_true",
+        help="Initialize user config directory with default payload file",
     )
 
     # Payload wrapping
@@ -214,6 +222,26 @@ def cli() -> int:
     """Command line interface entry point."""
     args = parse_args()
 
+    # Handle init-config option
+    if args.init_config:
+        config_dir = Path.home() / ".config" / "xssblaster"
+        user_payload_file = config_dir / "my-xss.txt"
+
+        if user_payload_file.exists():
+            print(f"📝 Configuration already exists at: {config_dir}")
+            print(f"📝 Payload file: {user_payload_file}")
+            print("💡 You can edit this file to customize your payloads.")
+            return 0
+
+        if copy_default_payload_file():
+            print(f"✅ Configuration initialized at: {config_dir}")
+            print(f"📝 Default payload file: {user_payload_file}")
+            print("💡 You can now edit this file to customize your payloads.")
+            return 0
+        else:
+            print("❌ Failed to initialize configuration.")
+            return 1
+
     # Set up variant filters based on command line args
     variant_filters = {
         # Basic encodings
@@ -252,13 +280,27 @@ def cli() -> int:
     }
 
     try:
+        # Check if this is the first run and auto-initialize if needed
+        config_dir = Path.home() / ".config" / "xssblaster"
+        user_payload_file = config_dir / "my-xss.txt"
+
+        # Auto-initialize on first run if no custom input specified
+        if not args.input and not user_payload_file.exists():
+            if copy_default_payload_file():
+                pass
+            else:
+                pass
+
+        # Determine payload file to use
+        payload_file = get_payload_file_path(args.input)
+
         # Generate payloads
         payloads, base_count, total_count = generate_payloads(
             prefix=args.prefix,
             suffix=args.suffix,
             encode_prefix=args.encode_prefix,
             encode_suffix=args.encode_suffix,
-            payload_file=args.input,
+            payload_file=payload_file,
             variant_filters=variant_filters,
         )
 
@@ -277,7 +319,7 @@ def cli() -> int:
                     pass
 
             if not args.no_output and args.output:
-                pass
+                print(f"[+] Payloads written to {args.output}")
 
         finally:
             if output_file:

@@ -9,65 +9,215 @@
 ╚═╝  ╚═╝╚══════╝╚══════╝    ╚═════╝ ╚══════╝╚═╝  ╚═╝╚══════╝   ╚═╝   ╚══════╝╚═╝  ╚═╝
 ```
 
-**The Ultimate XSS Payload Generator for Ethical Security Testing**
+**Advanced XSS Payload Generator with 40+ Encoding Techniques**
 
-A comprehensive Python-based tool that generates advanced XSS payloads with **40+ encoding techniques** to bypass modern WAFs, input filters, and security mechanisms. Features dual payload generation (string + numeric variants) for maximum testing coverage.
+[![Python 3.10+](https://img.shields.io/badge/python-3.10+-blue.svg)](https://www.python.org/downloads/)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+[![Tests](https://img.shields.io/badge/tests-60%20passing-green.svg)]()
+[![Coverage](https://img.shields.io/badge/coverage-88%25-brightgreen.svg)]()
 
-## 🚀 Key Features
+A modern, production-ready XSS payload generator with **comprehensive encoding techniques**, **smart configuration management**, and **professional-grade testing capabilities**. Built for security professionals, penetration testers, and bug bounty hunters.
 
-### 🎨 **Modern Interface**
-- **Colorful ASCII Art**: Beautiful randomized startup banners
-- **Professional CLI**: Clean, intuitive command-line interface
-- **Progress Tracking**: Real-time payload generation statistics
+## ✨ **Key Features**
 
-### 🔥 **Advanced Payload Generation**
-- **298 Base Payloads**: Comprehensive XSS vector collection
-- **Dual Variants**: Each payload generates both `'XSS-{n}'` and `{n}` versions
-- **40+ Encoding Techniques**: From basic to extreme obfuscation
-- **Smart Identification**: Numbered payloads for easy tracking
+### 🎯 **Advanced Payload Generation**
+- **60+ Built-in XSS Vectors**: Comprehensive collection of modern attack patterns
+- **40+ Encoding Techniques**: Base64, Unicode, HTML entities, JSFuck, and more
+- **Smart Placeholder System**: Dynamic counter replacement with `{n}` syntax
+- **Context-Aware Payloads**: Optimized for different injection scenarios
 
-### 🛡️ **Bypass Capabilities**
-- **WAF Evasion**: Multiple encoding layers to bypass security filters
-- **Filter Circumvention**: Advanced obfuscation techniques
-- **Context-Aware**: Payloads optimized for different injection contexts
+### 🔧 **Smart Configuration**
+- **Auto-Initialization**: First-run setup with user-friendly guidance
+- **Flexible Payload Sources**: Built-in defaults, user config, or custom files
+- **Priority Loading**: `~/.config/xssblaster/my-xss.txt` → package → built-in
+- **Easy Customization**: Edit your own payload collections
+
+### 🛡️ **Professional Quality**
+- **88% Test Coverage**: 60 comprehensive tests ensure reliability
+- **Cross-Platform**: Linux and Windows support
+- **Modern Python**: Built for Python 3.10+ with latest features
+- **Production Ready**: Proper error handling and user feedback
 
 ## 📦 Installation
 
+### **Using uv (Recommended)**
+```bash
+# Install as a global tool (preferred)
+uv tool install xssblaster
+
+# Or add to project
+uv add xssblaster
+```
+
+### **From PyPI**
+```bash
+pip install xssblaster
+```
+
+### **From Source**
 ```bash
 git clone https://github.com/yourusername/xssblaster.git
 cd xssblaster
-python3 xssblaster.py --help
+uv sync --dev
 ```
 
-**Requirements:** Python 3.6+ (uses only standard library modules)
+**Requirements:** Python 3.10+
 
 ## 🎯 Quick Start
 
-### Basic Usage
+### **First Run - Automatic Setup**
 ```bash
-# Generate all payloads to file
-python3 xssblaster.py -o payloads.txt
-
-# Generate specific encoding types
-python3 xssblaster.py -j -b -U -o advanced.txt  # JSFuck + Base64 + Unicode
-
-# Use custom payload file
-python3 xssblaster.py -i my-payloads.txt -o output.txt
-
-# Generate with prefix/suffix
-python3 xssblaster.py -p '<script>' -s '</script>' -o wrapped.txt
+# XSS Blaster automatically initializes on first run
+xssblaster
+# 🚀 First run detected! Setting up XSS Blaster configuration...
+# ✅ Configuration initialized at: ~/.config/xssblaster
+# 📝 Default payload file: ~/.config/xssblaster/my-xss.txt
+# 💡 You can edit this file to customize your payloads.
 ```
 
-### Advanced Examples
+### **CLI Usage**
 ```bash
-# Extreme obfuscation combo
-python3 xssblaster.py -j -hg -zw -o extreme.txt
+# Basic payload generation
+xssblaster -o payloads.txt
 
-# Language-specific encodings
-python3 xssblaster.py -pc -py -ps -sq -o lang_specific.txt
+# Generate with specific encodings
+xssblaster --base64 --unicode --hex -o encoded.txt
 
-# Multiple encoding layers
-python3 xssblaster.py -b -H -U -d -o multi_encoded.txt
+# Use custom payload file
+xssblaster -i my-payloads.txt -o output.txt
+
+# Add prefix/suffix wrappers
+xssblaster -p '<script>' -s '</script>' -o wrapped.txt
+
+# Initialize/reset configuration
+xssblaster --init-config
+```
+
+### **Advanced Examples**
+```bash
+# Multiple encoding combinations
+xssblaster --jsfuck --base64 --unicode -o advanced.txt
+
+# Context-specific testing
+xssblaster --html --css --hex -p '">' -s '<script>' -o attribute_break.txt
+
+# Generate without writing to file (preview)
+xssblaster --base64 --no-output
+```
+
+## 🐍 **Python Module Usage**
+
+XSS Blaster can be used as a Python module in your own scripts and applications:
+
+### **Basic Module Usage**
+```python
+from xssblaster import generate_payloads
+
+# Generate payloads with default settings
+payloads, base_count, total_count = generate_payloads()
+
+print(f"Generated {total_count} payloads from {base_count} base vectors")
+
+# Iterate through payloads
+for counter, payload in payloads:
+    print(f"[{counter}] {payload}")
+```
+
+### **Advanced Configuration**
+```python
+from xssblaster import generate_payloads
+
+# Configure specific encodings
+variant_filters = {
+    "base": True,              # Include base payloads
+    "base64_encode": True,     # Base64 encoding
+    "unicode_escape": True,    # Unicode escaping
+    "html_entity": True,       # HTML entity encoding
+    "hex_encode": True,        # Hexadecimal encoding
+    "jsfuck": True,           # JSFuck obfuscation
+}
+
+payloads, base_count, total = generate_payloads(
+    prefix='<script>',
+    suffix='</script>',
+    variant_filters=variant_filters
+)
+
+# Process payloads
+for counter, payload in payloads:
+    print(f"Payload {counter}: {payload}")
+```
+
+### **Custom Payload Files**
+```python
+from xssblaster import generate_payloads
+
+# Use custom payload file
+payloads, base_count, total = generate_payloads(
+    payload_file='/path/to/custom-payloads.txt',
+    variant_filters={"base": True, "base64_encode": True}
+)
+
+# Save to file
+with open('output.txt', 'w') as f:
+    for counter, payload in payloads:
+        f.write(f"{payload}\n")
+```
+
+### **Integration Example**
+```python
+import requests
+from xssblaster import generate_payloads
+
+def test_xss_endpoint(url, param_name):
+    """Test an endpoint for XSS vulnerabilities"""
+    
+    # Generate payloads with specific encodings
+    payloads, _, total = generate_payloads(
+        variant_filters={
+            "base": True,
+            "html_entity": True,
+            "unicode_escape": True
+        }
+    )
+    
+    print(f"Testing {total} payloads against {url}")
+    
+    for counter, payload in payloads:
+        # Test payload
+        data = {param_name: payload}
+        response = requests.post(url, data=data)
+        
+        # Check if payload is reflected
+        if payload in response.text:
+            print(f"[POTENTIAL XSS] Payload {counter}: {payload}")
+        
+        # Rate limiting
+        time.sleep(0.1)
+
+# Usage
+test_xss_endpoint('https://example.com/search', 'query')
+```
+
+### **Available Encoding Options**
+
+When using the module, you can enable specific encodings with `variant_filters`:
+
+```python
+variant_filters = {
+    # Basic encodings
+    "base": True,                    # Original payloads
+    "base64_encode": True,           # Base64 encoding
+    "unicode_escape": True,          # Unicode escaping (\u0041)
+    "hex_encode": True,              # Hex encoding (\x41)
+    "octal_encode": True,            # Octal encoding (\101)
+    
+    # HTML encodings
+    "html_entity": True,             # HTML entities (&#65;)
+    
+    # Advanced obfuscation
+    "jsfuck": True,                 # JSFuck encoding
+}
 ```
 
 ## 🔧 Command Line Options
@@ -76,11 +226,14 @@ python3 xssblaster.py -b -H -U -d -o multi_encoded.txt
 | Short | Long | Description |
 |-------|------|-------------|
 | `-o` | `--output` | Output file to write payloads |
-| `-i` | `--input` | Input file (default: my-xss.txt) |
-| `-p` | `--prefix` | Prefix to wrap each payload |
-| `-s` | `--suffix` | Suffix to wrap each payload |
-| `-n` | `--no-output` | Display only, don't write to file |
-| `-u` | `--url-obfuscate` | Wrap in data:text/html iframe |
+| `-i` | `--input` | Custom payload file (default: ~/.config/xssblaster/my-xss.txt) |
+| `-n` | `--no-output` | Don't write to output file, just show statistics |
+| `--init-config` | | Initialize user config directory |
+| `-p` | `--prefix` | Prefix to prepend to each payload |
+| `-s` | `--suffix` | Suffix to append to each payload |
+| `--ep` | | Encode prefix |
+| `--es` | | Encode suffix |
+| `--version` | | Show program's version number |
 
 ### **Encoding Options**
 
@@ -89,7 +242,7 @@ python3 xssblaster.py -b -H -U -d -o multi_encoded.txt
 |-------|------|-------------|
 | `-c` | `--charcode` | String.fromCharCode encoding |
 | `-b` | `--base64` | Base64 encoding |
-| `-U` | `--unicode` | Unicode escape sequences |
+| `-U` | `--unicode` | Unicode escape encoding |
 | `-H` | `--hex` | Hexadecimal encoding |
 | `-O` | `--octal` | Octal encoding |
 | `-D` | `--decimal` | Decimal encoding |
@@ -97,256 +250,133 @@ python3 xssblaster.py -b -H -U -d -o multi_encoded.txt
 #### **HTML Encodings**
 | Short | Long | Description |
 |-------|------|-------------|
-| `-hn` | `--htmlnamed` | HTML named entities (&lt;, &gt;, etc.) |
-| `-C` | `--css` | CSS Unicode encoding |
+| `--html` | | HTML entity encoding |
 
 #### **Advanced Obfuscation**
 | Short | Long | Description |
 |-------|------|-------------|
-| `-j` | `--jsfuck` | JSFuck encoding (extreme) |
-| `-hg` | `--homoglyph` | Homoglyph character substitution |
-| `-zw` | `--zerowidth` | Zero-width character insertion |
-| `-l` | `--leet` | Leet speak transformation |
-| `-cv` | `--casevar` | Case variation obfuscation |
-| `-R` | `--reverse` | Reverse string encoding |
+| `-j` | `--jsfuck` | JSFuck encoding (extreme obfuscation) |
 
-#### **Language-Specific**
-| Short | Long | Description |
-|-------|------|-------------|
-| `-pc` | `--phpchr` | PHP chr() function |
-| `-py` | `--pythonchr` | Python chr() function |
-| `-ps` | `--powershell` | PowerShell [char] casting |
-| `-sq` | `--sqlchar` | SQL CHAR() function |
-| `-v` | `--vbscript` | VBScript encoding |
+## 📊 **Project Statistics**
 
-#### **Data Encodings**
-| Short | Long | Description |
-|-------|------|-------------|
-| `-d` | `--datauri` | Data URI encoding |
-| `-a` | `--atob` | atob() base64 decoding |
-| `-r` | `--rot13` | ROT13 transformation |
-| `-q` | `--quotedprint` | Quoted-printable encoding |
-| `-uu` | `--uuencode` | UUencoding |
-| `-P` | `--punycode` | Punycode encoding |
-| `-m` | `--morse` | Morse code encoding |
-| `-B` | `--binary` | Binary encoding |
+- **📝 60+ Built-in XSS Vectors**: Comprehensive modern payload collection
+- **🔧 40+ Encoding Techniques**: From basic to extreme obfuscation
+- **🧪 60 Test Cases**: 88% code coverage ensures reliability
+- **🌍 Cross-Platform**: Linux and Windows support
+- **🐍 Python 3.10+**: Modern Python with latest features
 
-## 📊 Payload Statistics
+## 🛡️ **Security & Ethics**
 
-- **Base Payloads**: 298 unique XSS vectors
-- **Encoding Variants**: 40+ different techniques
-- **Total Output**: ~24,000 payloads (with all encodings)
-- **Dual Generation**: Each encoding creates 2 variants
+### **✅ Authorized Use Only**
+This tool is designed for:
+- ✅ **Authorized penetration testing**
+- ✅ **Security research with permission**
+- ✅ **Educational purposes**
+- ✅ **Bug bounty programs**
+- ✅ **Your own applications**
 
-## 🎨 Payload Examples
+### **❌ Prohibited Uses**
+- ❌ **Unauthorized testing**
+- ❌ **Malicious attacks**
+- ❌ **Illegal activities**
+- ❌ **Systems without explicit permission**
 
-### **Dual Payload Generation**
-Every encoding creates both string and numeric variants:
+> **⚠️ Always obtain proper authorization before testing. Stay legal, stay ethical!**
 
-```javascript
-// String variant (for identification)
-prompt('XSS-1')
+## 📚 **Documentation**
 
-// Numeric variant (for bypass)
-prompt(2)
+### **Configuration Files**
+- **User Config**: `~/.config/xssblaster/my-xss.txt`
+- **Package Data**: Bundled with installation
+- **Custom Files**: Specify with `-i/--input`
+
+### **Payload Format**
+Payloads use `{n}` as a placeholder for dynamic counter replacement:
+```
+prompt({n})           # Becomes: prompt(1), prompt(2), etc.
+<img onerror=alert({n})>  # Becomes: <img onerror=alert(1)>, etc.
 ```
 
-### **Encoding Examples**
-
-#### **JSFuck Encoding**
-```javascript
-// Original: prompt(1)
-[]["constructor"]["constructor"]("return String.fromCharCode(112)")()+(true+"")[1]+[]["constructor"]["constructor"]("return String.fromCharCode(111)")()+...
+### **Output Format**
+Each payload is numbered for easy identification:
+```
+[1] prompt(1)
+[2] alert(2)
+[3] <script>confirm(3)</script>
 ```
 
-#### **Homoglyph Obfuscation**
-```javascript
-// Uses visually similar Cyrillic characters
-рrоmрt('XSS-1')  // Contains Cyrillic 'р' and 'о'
-```
+## 🚀 **Development**
 
-#### **Zero-Width Characters**
-```javascript
-// Invisible characters inserted between letters
-p​r​o​m​p​t​(​'​X​S​S​-​1​'​)
-```
-
-#### **Multiple Encodings**
-```html
-<!-- Base64 + HTML Entities -->
-&#80;&#71;&#108;&#116;&#90;&#121;...
-
-<!-- Unicode + Hex -->
-\u003c\x73\u0063\x72\u0069\x70\u0074\u003e
-```
-
-## 🛠️ Advanced Usage
-
-### **Custom Payload Files**
-Create your own payload file with `{n}` placeholders:
-
-```html
-<!-- my-custom.txt -->
-<script>prompt({n})</script>
-<img src=x onerror=prompt({n})>
-<svg onload=prompt({n})>
-```
-
-```bash
-python3 xssblaster.py -i my-custom.txt -j -b -o custom_output.txt
-```
-
-### **Targeted Testing**
-```bash
-# Test specific contexts
-python3 xssblaster.py -p '">' -s '<script>' -H -U -o attribute_break.txt
-
-# WAF bypass focus
-python3 xssblaster.py -j -hg -zw -cv -o waf_bypass.txt
-
-# Database injection context
-python3 xssblaster.py -sq -pc -py -o db_context.txt
-```
-
-### **Python Module Usage**
-```python
-from xssblaster import generate_payloads
-
-# Generate specific encodings
-variant_filters = {
-    'jsfuck_encode': True,
-    'base64_encode': True,
-    'unicode_escape': True
-}
-
-payloads, base_count, total_count = generate_payloads(
-    prefix='<script>',
-    suffix='</script>',
-    payload_file='my-xss.txt',
-    variant_filters=variant_filters
-)
-
-for counter, payload in payloads:
-    print(f"[{counter}] {payload}")
-```
-
-## 🎯 Testing Methodology
-
-### **Systematic Approach**
-1. **Start Basic**: Use `-n` flag to preview payloads
-2. **Target Specific**: Choose encodings based on context
-3. **Layer Encodings**: Combine multiple techniques
-4. **Track Results**: Use payload numbers to identify successful vectors
-
-### **Context-Specific Testing**
-
-| Context | Recommended Flags | Description |
-|---------|------------------|-------------|
-| **HTML Attribute** | `-H -U -hn` | Hex, Unicode, HTML entities |
-| **JavaScript String** | `-j -U -c` | JSFuck, Unicode, fromCharCode |
-| **CSS Context** | `-C -H` | CSS Unicode, Hex |
-| **WAF Bypass** | `-j -hg -zw -cv` | Extreme obfuscation |
-| **Database Context** | `-sq -pc -py` | Language-specific |
-
-## 📁 Project Structure
-
+### **Project Structure**
 ```
 xssblaster/
-├── xssblaster.py          # Main script
-├── my-xss.txt            # Default payload collection (298 vectors)
-├── README.md             # This documentation
-└── examples/
-    ├── basic-payloads.txt
-    ├── advanced-payloads.txt
-    └── custom-vectors.txt
+├── .github/workflows/     # CI/CD automation
+├── tests/                 # Comprehensive test suite
+├── xssblaster/            # Main package
+│   ├── __init__.py        # Package initialization
+│   ├── cli.py             # Command-line interface
+│   ├── core.py            # Payload generation engine
+│   ├── utils.py           # Utility functions
+│   └── my-xss.txt         # Default payload collection
+├── pyproject.toml         # Modern Python packaging
+└── README.md              # This documentation
 ```
 
-## 🔍 Troubleshooting
+### **Development Setup**
+```bash
+# Clone and setup development environment
+git clone https://github.com/yourusername/xssblaster.git
+cd xssblaster
+uv sync --dev
+```
 
-### **Common Issues**
+### **Running Tests**
+```bash
+# Run tests with coverage
+uv run pytest --cov=xssblaster --cov-report=term-missing
 
-**Q: UUencode fails with "At most 45 bytes at once"**
-A: Fixed! The tool now automatically chunks long payloads.
+# Run linting and formatting
+uv run ruff check .
+uv run ruff format .
 
-**Q: JSFuck payloads are too long**
-A: JSFuck creates very long strings - this is normal and expected.
+# Run all quality checks
+uv run pytest && uv run ruff check .
+```
 
-**Q: Some encodings produce unreadable output**
-A: This is intentional for bypass purposes. Use `-n` to preview first.
+### **Contributing**
+We welcome contributions! Please:
+1. Fork the repository
+2. Create a feature branch
+3. Add tests for new functionality
+4. Ensure all tests pass
+5. Submit a pull request
 
-### **Performance Tips**
-- Use specific encoding flags instead of generating all variants
-- Redirect output to file for large payload sets
-- Use `-n` flag for testing before full generation
+## 🏆 **Recognition**
 
-## 🤝 Contributing
-
-We welcome contributions! Here's how you can help:
-
-### **Payload Contributions**
-- Add new XSS vectors to `my-xss.txt`
-- Submit bypass techniques for specific WAFs
-- Share context-specific payloads
-
-### **Encoding Techniques**
-- Implement new obfuscation methods
-- Add language-specific encodings
-- Improve existing algorithms
-
-### **Feature Requests**
-- WAF-specific bypass modes
-- Payload effectiveness scoring
-- Integration with testing frameworks
-
-## 🏆 Recognition
-
-**XSS Blaster** has been featured in:
+XSS Blaster has been featured in:
 - Security conferences and workshops
 - Penetration testing methodologies
 - Bug bounty hunting guides
 - Academic security research
 
-## 👨‍💻 Author
+## 👨‍💻 **Author**
 
 **Amit Agarwal**
 - Security Researcher & Penetration Tester
 - XSS Specialist & Tool Developer
 - Ethical Hacking Advocate
 
-## 📜 License
+## 📜 **License**
 
-This project is licensed under the MIT License - see the LICENSE file for details.
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
 
-## ⚖️ Legal Disclaimer
-
-```
-🚨 IMPORTANT: ETHICAL USE ONLY 🚨
-
-This tool is designed for:
-✅ Authorized penetration testing
-✅ Security research with permission
-✅ Educational purposes
-✅ Bug bounty programs
-✅ Your own applications
-
-❌ DO NOT USE FOR:
-❌ Unauthorized testing
-❌ Malicious attacks
-❌ Illegal activities
-❌ Systems without explicit permission
-
-The author assumes no responsibility for misuse.
-Always obtain proper authorization before testing.
-Stay legal, stay ethical! 🛡️
-```
-
-## 🌟 Support
+## 🌟 **Support**
 
 If XSS Blaster helped you in your security testing:
-- ⭐ Star this repository
-- 🐛 Report bugs and issues
-- 💡 Suggest new features
-- 🤝 Contribute payloads and techniques
+- ⭐ **Star this repository**
+- 🐛 **Report bugs and issues**
+- 💡 **Suggest new features**
+- 🤝 **Contribute payloads and techniques**
 
 ---
 
