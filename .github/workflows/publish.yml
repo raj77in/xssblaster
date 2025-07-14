@@ -4,6 +4,9 @@ name: Publish Python Package
 on:
   release:
     types: [created]
+  push:
+    tags:
+      - '*'  # Trigger on any tag
   workflow_dispatch:  # Allow manual triggering
 
 jobs:
