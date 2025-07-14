@@ -12,6 +12,7 @@ xssblaster.egg-info/PKG-INFO
 xssblaster.egg-info/SOURCES.txt
 xssblaster.egg-info/dependency_links.txt
 xssblaster.egg-info/entry_points.txt
+xssblaster.egg-info/requires.txt
 xssblaster.egg-info/top_level.txt
 xssblaster/xssblaster/__init__.py
 xssblaster/xssblaster/__main__.py

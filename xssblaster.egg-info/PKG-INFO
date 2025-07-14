@@ -1,19 +1,30 @@
 Metadata-Version: 2.4
 Name: xssblaster
 Version: 1.0.0
-Summary: Advanced XSS payload generator
+Summary: Advanced XSS Payload Generator with 40+ encoding techniques
 Author: Amit Agarwal
-Classifier: Programming Language :: Python :: 3
+Author-email: Your Name <your.email@example.com>
+Classifier: Development Status :: 4 - Beta
+Classifier: Intended Audience :: Developers
 Classifier: License :: OSI Approved :: MIT License
-Classifier: Operating System :: OS Independent
+Classifier: Programming Language :: Python :: 3
+Classifier: Programming Language :: Python :: 3.8
+Classifier: Programming Language :: Python :: 3.9
+Classifier: Programming Language :: Python :: 3.10
+Classifier: Programming Language :: Python :: 3.11
+Classifier: Programming Language :: Python :: 3.12
+Classifier: Programming Language :: Python :: 3.13
 Requires-Python: >=3.6
 Description-Content-Type: text/markdown
+Provides-Extra: dev
+Requires-Dist: black>=22.3.0; extra == "dev"
+Requires-Dist: flake8>=4.0.1; extra == "dev"
+Requires-Dist: pytest>=7.1.2; extra == "dev"
+Requires-Dist: pytest-cov>=4.0.0; extra == "dev"
+Requires-Dist: pre-commit>=2.20.0; extra == "dev"
+Requires-Dist: ruff>=0.1.0; extra == "dev"
 Dynamic: author
-Dynamic: classifier
-Dynamic: description
-Dynamic: description-content-type
 Dynamic: requires-python
-Dynamic: summary
 
 # 🎯 XSS Blaster
 

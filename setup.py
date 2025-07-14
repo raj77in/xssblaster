@@ -1,7 +1,7 @@
 # setup.py
-from setuptools import setup, find_packages
+from setuptools import find_packages, setup
 
-with open("README.md", "r", encoding="utf-8") as fh:
+with open("README.md", encoding="utf-8") as fh:
     long_description = fh.read()
 
 setup(
@@ -13,14 +13,14 @@ setup(
     long_description_content_type="text/markdown",
     packages=find_packages(),
     package_data={
-        'xssblaster': ['my-xss.txt'],
+        "xssblaster": ["my-xss.txt"],
     },
     entry_points={
-        'console_scripts': [
-            'xssblaster = xssblaster.cli:cli',
+        "console_scripts": [
+            "xssblaster = xssblaster.cli:cli",
         ],
     },
-    python_requires='>=3.6',
+    python_requires=">=3.6",
     classifiers=[
         "Programming Language :: Python :: 3",
         "License :: OSI Approved :: MIT License",

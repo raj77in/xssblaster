@@ -7,7 +7,7 @@ techniques to bypass modern WAFs, input filters, and security mechanisms.
 
 __version__ = "1.0.0"
 
-from .core import generate_payloads
 from .cli import cli
+from .core import generate_payloads
 
-__all__ = ['generate_payloads', 'cli']
+__all__ = ["generate_payloads", "cli"]
